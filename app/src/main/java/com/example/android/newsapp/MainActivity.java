@@ -23,8 +23,7 @@ public class MainActivity extends AppCompatActivity
 
     /** Query URL using the Guardian News API */
     // Private key not checked into git
-    private static final String QUERY_URL = "https://content.guardianapis.com/search?show-fields=byline&page-size=25&api-key=";
-
+    private static final String QUERY_URL = "https://content.guardianapis.com/search?order-by=newest&show-fields=byline&q=politics&api-key=";
     /** Loader ID */
     private static final int ARTICLE_LOADER_ID = 1;
 
