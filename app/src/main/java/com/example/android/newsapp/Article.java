@@ -57,7 +57,12 @@ public class Article {
     public String getArticleTitle(){return mTitle;}
 
     /** Get Byline (author info)*/
-    public String getByline(){return mByline;}
+    public String getByline(){
+        if (mByline.equals("")) {
+            return "No Author Listed";
+        } else {
+            return mByline;
+        }}
 
     /** Get Url to the article*/
     public String getUrl(){return mUrl;}

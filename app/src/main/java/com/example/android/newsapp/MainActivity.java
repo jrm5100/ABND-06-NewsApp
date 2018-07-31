@@ -5,11 +5,16 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,7 +28,9 @@ public class MainActivity extends AppCompatActivity
 
     /** Query URL using the Guardian News API */
     // Private key not checked into git
-    private static final String QUERY_URL = "https://content.guardianapis.com/search?order-by=newest&show-fields=byline&q=politics&api-key=";
+    private static final String API_KEY ="test";
+    private static final String QUERY_URL = "https://content.guardianapis.com/search";
+
     /** Loader ID */
     private static final int ARTICLE_LOADER_ID = 1;
 
@@ -98,8 +105,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
-        // Create a new loader for the given URL
-        return new ArticleLoader(this, QUERY_URL);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String query = sharedPrefs.getString(
+                getString(R.string.settings_query_key),
+                getString(R.string.settings_query_default)
+        );
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
+        Uri baseUri = Uri.parse(QUERY_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Add always included parameters
+        uriBuilder.appendQueryParameter("show-fields", "byline");
+        uriBuilder.appendQueryParameter("api-key", API_KEY);
+
+        // Add custom url parameters
+        uriBuilder.appendQueryParameter(getString(R.string.settings_query_key), query);
+        uriBuilder.appendQueryParameter(getString(R.string.settings_order_by_key), orderBy);
+        Log.v("URL", uriBuilder.toString());
+
+        return new ArticleLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -122,5 +152,22 @@ public class MainActivity extends AppCompatActivity
     public void onLoaderReset(Loader<List<Article>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

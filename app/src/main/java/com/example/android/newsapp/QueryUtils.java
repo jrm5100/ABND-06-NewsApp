@@ -167,9 +167,12 @@ public class QueryUtils {
                 String title = currentArticle.getString("webTitle");
                 String url = currentArticle.getString("webUrl");
 
-                // Extract byline from the fields object
-                JSONObject fields = currentArticle.getJSONObject("fields");
-                String byline = fields.getString("byline");
+                // Extract byline from the fields object, returning an empty string if none were found
+                String byline = "";
+                try {
+                    JSONObject fields = currentArticle.getJSONObject("fields");
+                    byline = fields.getString("byline");
+                } catch (JSONException ignored) {}
 
 
                 // Create a new {@link Article} object
