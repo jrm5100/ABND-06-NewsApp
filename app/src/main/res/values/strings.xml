@@ -27,4 +27,15 @@
     <string name="settings_order_by_relevance_label">Most Relevant First</string>
     <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
 
+    <!-- From Year -->
+    <string name="settings_from_year_label">From Year</string>
+    <string name="settings_from_year_key" translatable="false">from-date</string>
+    <string name="settings_from_year_default" translatable="false">2017</string>
+
+    <!-- To Year -->
+    <string name="settings_to_year_label">To Year</string>
+    <string name="settings_to_year_key" translatable="false">to-date</string>
+    <string name="settings_to_year_default" translatable="false">2018</string>
+
+
 </resources>

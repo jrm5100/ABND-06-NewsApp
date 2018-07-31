@@ -22,6 +22,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -44,10 +45,17 @@ public class SettingsActivity extends AppCompatActivity {
 
             Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(orderBy);
+
+            Preference fromDate = findPreference(getString(R.string.settings_from_year_key));
+            bindPreferenceSummaryToValue(fromDate);
+
+            Preference toDate = findPreference(getString(R.string.settings_to_year_key));
+            bindPreferenceSummaryToValue(toDate);
         }
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
+            Log.v("Change Pref", value.toString());
             String stringValue = value.toString();
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;

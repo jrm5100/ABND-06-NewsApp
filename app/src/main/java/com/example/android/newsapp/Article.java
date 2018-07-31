@@ -5,10 +5,6 @@ package com.example.android.newsapp;
  */
 public class Article {
 
-    /** Pillar is like a main section */
-    // example: pillarName: "Sport"
-    private String mPillar;
-
     /** Section is like a sub-section */
     // example: sectionName: "Sport"
     private String mSection;
@@ -32,9 +28,8 @@ public class Article {
     /**
      * Constructs a new {@link Article} object.
      */
-    public Article(String pillar, String section, String publishedTime,
+    public Article(String section, String publishedTime,
                       String title, String byLine, String url) {
-        mPillar = pillar;
         mSection = section;
         mPublishedTime = publishedTime;
         mTitle = title;
@@ -43,9 +38,6 @@ public class Article {
     }
 
     // Public Getters
-
-    /** Get Pillar*/
-    public String getPillar(){return mPillar;}
 
     /** Get Section*/
     public String getSection(){return mSection;}

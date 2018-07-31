@@ -1,7 +1,6 @@
 package com.example.android.newsapp;
 
 import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
@@ -106,6 +105,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
 
+        // Get Preferences
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String query = sharedPrefs.getString(
                 getString(R.string.settings_query_key),
@@ -117,16 +117,35 @@ public class MainActivity extends AppCompatActivity
                 getString(R.string.settings_order_by_default)
         );
 
+        String fromYear = sharedPrefs.getString(
+                getString(R.string.settings_from_year_key),
+                getString(R.string.settings_from_year_default)
+        );
+
+        String toYear = sharedPrefs.getString(
+                getString(R.string.settings_to_year_key),
+                getString(R.string.settings_to_year_default)
+        );
+
+
+        // Set fromYear as January 1st of the given year
+        fromYear = fromYear + "-01-01";
+        // Set toYear as December 31st of the given year
+        toYear = toYear + "-12-31";
+
         Uri baseUri = Uri.parse(QUERY_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         // Add always included parameters
+        uriBuilder.appendQueryParameter("page-size", "25");
         uriBuilder.appendQueryParameter("show-fields", "byline");
         uriBuilder.appendQueryParameter("api-key", API_KEY);
 
         // Add custom url parameters
         uriBuilder.appendQueryParameter(getString(R.string.settings_query_key), query);
         uriBuilder.appendQueryParameter(getString(R.string.settings_order_by_key), orderBy);
+        uriBuilder.appendQueryParameter(getString(R.string.settings_from_year_key), fromYear);
+        uriBuilder.appendQueryParameter(getString(R.string.settings_to_year_key), toYear);
         Log.v("URL", uriBuilder.toString());
 
         return new ArticleLoader(this, uriBuilder.toString());

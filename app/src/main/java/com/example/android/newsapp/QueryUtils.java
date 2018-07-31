@@ -161,7 +161,6 @@ public class QueryUtils {
                 JSONObject currentArticle = articleArray.getJSONObject(i);
 
                 // Extract data
-                String pillar = currentArticle.getString("pillarName");
                 String section = currentArticle.getString("sectionName");
                 String publishedTime = currentArticle.getString("webPublicationDate");
                 String title = currentArticle.getString("webTitle");
@@ -176,8 +175,7 @@ public class QueryUtils {
 
 
                 // Create a new {@link Article} object
-                Article article = new Article(pillar, section, publishedTime,
-                        title, byline, url);
+                Article article = new Article(section, publishedTime, title, byline, url);
 
                 // Add the new {@link Article} to the list of articles.
                 articles.add(article);

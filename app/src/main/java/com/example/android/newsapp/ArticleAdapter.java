@@ -68,7 +68,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         try {
             SimpleDateFormat dateFormatIn = new SimpleDateFormat(
                     "yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            SimpleDateFormat dateFormatOut = new SimpleDateFormat("MMM dd", Locale.US);
+            SimpleDateFormat dateFormatOut = new SimpleDateFormat("MMM dd YYYY", Locale.US);
             Date d = dateFormatIn.parse(currentArticle.getPublishedTime());
             dateString = dateFormatOut.format(d);
         } catch(ParseException ex) {
